@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-var port = 3000;
+var port = 4444;
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -12,13 +12,12 @@ app.set('view engine', 'html')
 
 app.use('/', (req, res) => {
     res.render('index.html')
-    console.log(' entrando em /')
 })
 
 let messages = [];
 
 io.on('connection', socket => {
-console.log(`socket conectado ${socket.id }`)
+console.log(`socket  conectado id: ${socket.id }`)
 socket.emit('previousMessage', messages)
 socket.on('sendMessage', data => {
     messages.push(data)
@@ -26,6 +25,7 @@ socket.on('sendMessage', data => {
     socket.broadcast.emit('receivedMessage', data)
 })
 })
+
 
 server.listen(port)
 console.log('servidor iniciado na porta: '+port)
