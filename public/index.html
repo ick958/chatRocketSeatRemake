@@ -7,11 +7,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.1/socket.io.js"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="./roll.js" nonce=""></script>
 </head>
-<body>
+<body onload="scrollDown()">
     <form id="chat">
         <input type="text" name="username" placeholder="digite seu nome de usuario">
-        <div class="messages"></div>
+        <div class="messages message-anime" autocomplete="off" onload="roll()" tabindex="0" id="messages"></div>
         <input type="text" name="messageE" placeholder="digite a mensagem"  onfocus="this.value='';">
         <button type="submit">Enviar mensagem</button>
         <button type="reset">resetar</button>
@@ -42,7 +43,16 @@
             socket.emit('sendMessage', messageObject)
         }
     })
-    
+var scroll = document.getElementById('messages')
+function chamadora(){
+    scrollDown()
+}
+function scrollDown(){
+    $(document).ready(function(){
+    document.querySelector('#messages').scrollTo(0,100000000)
+    chamadora()
+})
+}
     </script>
 </body>
 </html>
