@@ -2,4 +2,4 @@ ports:
   - port: 4444
     onOpen: open-preview
 tasks:
-  - command: "nvm install && node ."
+  - command: "nvm install node&& node ."
