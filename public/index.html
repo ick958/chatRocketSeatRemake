@@ -17,7 +17,7 @@
         <button type="reset">resetar</button>
     </form>
     <script type="text/javascript">
-    var socket = io('http://192.168.1.5:4444')
+    var socket = io()
     function renderMessages(message){
         $('.messages').append('<div class="message"><strong>'+message.author+'</strong> '+' enviou a mensagem: '+message.message+'</div>')
     }
