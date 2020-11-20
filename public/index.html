@@ -24,6 +24,7 @@
     }
     socket.on('receivedMessage', function(message){
         renderMessages(message)
+        scrollDown()
     })
     socket.on('previousMessage', function(messages){
         for (message of messages)
@@ -41,16 +42,14 @@
             }
             renderMessages(messageObject)
             socket.emit('sendMessage', messageObject)
+            scrollDown()
         }
     })
 var scroll = document.getElementById('messages')
-function chamadora(){
-    scrollDown()
-}
 function scrollDown(){
     $(document).ready(function(){
     document.querySelector('#messages').scrollTo(0,100000000)
-    chamadora()
+
 })
 }
     </script>
