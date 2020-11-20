@@ -42,6 +42,7 @@
             }
             renderMessages(messageObject)
             socket.emit('sendMessage', messageObject)
+            document.querySelector("[name='messageE']").value = '';
             scrollDown()
         }
     })
