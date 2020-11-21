@@ -9,34 +9,44 @@
     <link rel="stylesheet" href="style.css">
     <script src="./roll.js" nonce=""></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="828559330671-ni3uju53tcmeacu2s2v82v8gmo1v6c7q.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="828559330671-9qp64mnsjmbig26561le89keesajvjqe.apps.googleusercontent.com">
 </head>
 <body onload="scrollDown()">
     
-    
+    <div id="carinha"><h2>Logue para ver suas informaçoes</h2></div>
     <form id="chat">
-        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+        
+       
+        <a href="javascript:void(0);" onclick="signOut()" class="googleB sig">sign out</a>
         <div class="messages message-anime" autocomplete="off" onload="roll()" tabindex="0" id="messages"></div>
         <input type="text" name="messageE" placeholder="digite a mensagem"  onfocus="this.value='';">
         <button type="submit">Enviar mensagem</button>
         <button type="reset">resetar</button>
-        <audio hidden >
-            <source src="100-collect.mp3" type="audio/mp3">
-        </audio>
     </form>
+    <div class="g-signin2 googleB" data-onsuccess="onSignIn" data-theme="dark"></div>
     <script type="text/javascript">
     var img 
-    var author;
+    var author = '';
         
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+    });
+    document.getElementById('carinha').innerHTML = '<h2>Logue para ver suas informaçoes</h2>'
+}
     function onSignIn(googleUser){
         var profile = googleUser.getBasicProfile();
         author = profile.getName();
         console.log(author);
+        img = profile.getImageUrl()
+        console.log(img)
+        document.getElementById('carinha').innerHTML = '<a><img class="img" src="'+img+'"></img></a>logado como: <strong>'+author+'</strong>'
         }
     
     var socket = io()
     function renderMessages(message){
-        $('.messages').append('<div class="message"><strong>'+message.author+'</strong> '+' enviou a mensagem: '+message.message+'</div>')
+        $('.messages').append('<div class="message"><img src='+ message.img +' class="img"></img><strong>'+message.author+'</strong> '+' enviou a mensagem: '+message.message+'</div>')
     }
     socket.on('receivedMessage', function(message){
         renderMessages(message)
@@ -52,15 +62,22 @@
         event.preventDefault()
         
         var message = $('input[name=messageE]').val()
-        if(message.length) {
+        if(message.length && author.length) {
             var messageObject = {
                 author: author,
-                message: message
+                message: message,
+                img: img
             }
+            console.log(message.img)
             renderMessages(messageObject)
             socket.emit('sendMessage', messageObject)
             document.querySelector("[name='messageE']").value = '';
             scrollDown()
+            
+        }else if(author != null){
+            document.getElementById('carinha').innerHTML = 'logue para poder enviar mensagems'
+        }else{
+            document.getElementById('carinha').innerHTML = `<h3>digite uma mensagem</h3>`
         }
     })
 var scroll = document.getElementById('messages')
