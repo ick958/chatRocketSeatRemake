@@ -8,16 +8,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.1/socket.io.js"></script>
     <link rel="stylesheet" href="style.css">
     <script src="./roll.js" nonce=""></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="828559330671-ni3uju53tcmeacu2s2v82v8gmo1v6c7q.apps.googleusercontent.com">
 </head>
 <body onload="scrollDown()">
+    
+    
     <form id="chat">
-        <input type="text" name="username" placeholder="digite seu nome de usuario">
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
         <div class="messages message-anime" autocomplete="off" onload="roll()" tabindex="0" id="messages"></div>
         <input type="text" name="messageE" placeholder="digite a mensagem"  onfocus="this.value='';">
         <button type="submit">Enviar mensagem</button>
         <button type="reset">resetar</button>
+        <audio hidden >
+            <source src="100-collect.mp3" type="audio/mp3">
+        </audio>
     </form>
     <script type="text/javascript">
+    var img 
+    var author;
+        
+    function onSignIn(googleUser){
+        var profile = googleUser.getBasicProfile();
+        author = profile.getName();
+        console.log(author);
+        }
+    
     var socket = io()
     function renderMessages(message){
         $('.messages').append('<div class="message"><strong>'+message.author+'</strong> '+' enviou a mensagem: '+message.message+'</div>')
@@ -25,6 +41,8 @@
     socket.on('receivedMessage', function(message){
         renderMessages(message)
         scrollDown()
+        const audio = document.querySelector('audio')
+      audio.play
     })
     socket.on('previousMessage', function(messages){
         for (message of messages)
@@ -32,10 +50,9 @@
     })
     $('#chat').submit(function(event) {
         event.preventDefault()
-
-        var author = $('input[name=username]').val()
+        
         var message = $('input[name=messageE]').val()
-        if(author.length && message.length) {
+        if(message.length) {
             var messageObject = {
                 author: author,
                 message: message
@@ -53,6 +70,8 @@ function scrollDown(){
 
 })
 }
+     
+    
     </script>
 </body>
 </html>
