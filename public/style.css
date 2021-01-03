@@ -7,7 +7,11 @@ html, body {
     padding: 0;
     box-sizing: border-box;
   }
-  
+  #Btn{
+    position: absolute;
+    top: 50px;
+    left: 10px;
+  }
   #chat {
     height: 100%;
     display: flex;
@@ -44,4 +48,9 @@ html, body {
     padding: 20px; 
   overflow:auto; 
 
+  }
+  .imgPerf{
+    border-radius: 40px;
+    width: 40px;
+    height: 40px;
   }

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="./roll.js" nonce=""></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="828559330671-9qp64mnsjmbig26561le89keesajvjqe.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="168452114988-op4ci86kbp8o6ojg2869386m3gs62mgk.apps.googleusercontent.com">
 </head>
 <body onload="scrollDown()">
     
@@ -21,13 +21,16 @@
         <div class="messages message-anime" autocomplete="off" onload="roll()" tabindex="0" id="messages"></div>
         <input type="text" name="messageE" placeholder="digite a mensagem"  onfocus="this.value='';">
         <button type="submit">Enviar mensagem</button>
-        <button type="reset">resetar</button>
+    </form><br>
+    <form method="post" enctype="multipart/form-data" action="/upload" style="position: absolute;left: 28%;">
+        <button type="submit">Enviar Imagem</button><br>
+        <input id="inputFileToLoad" type="file"name="file"/><br>
     </form>
-    <div class="g-signin2 googleB" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <div class="g-signin2 googleB" id="Btn" data-onsuccess="onSignIn" data-theme="dark"></div>
     <script type="text/javascript">
     var img 
     var author = '';
-        
+    var socket = io()   
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
@@ -41,12 +44,14 @@ function signOut() {
         console.log(author);
         img = profile.getImageUrl()
         console.log(img)
-        document.getElementById('carinha').innerHTML = '<a><img class="img" src="'+img+'"></img></a>logado como: <strong>'+author+'</strong>'
+        document.getElementById('carinha').innerHTML = '<a><img class="imgPerf" src="'+img+'"></img></a>logado como: <strong>'+author+'</strong>'
         }
     
-    var socket = io()
+    function RenderImg(img){
+        $('.messages').append('<img width="100px" height="100px" src="' + img + '"></img><br>')
+    }
     function renderMessages(message){
-        $('.messages').append('<div class="message"><img src='+ message.img +' class="img"></img><strong>'+message.author+'</strong> '+' enviou a mensagem: '+message.message+'</div>')
+        $('.messages').append('<div class="message"><img src='+ message.img +' class="imgPerf"></img><strong>'+message.author+'</strong> '+' enviou a mensagem: '+message.message+'</div>')
     }
     socket.on('receivedMessage', function(message){
         renderMessages(message)
@@ -81,13 +86,15 @@ function signOut() {
         }
     })
 var scroll = document.getElementById('messages')
+socket.on('imgR', (data) => {
+RenderImg(data)
+})
 function scrollDown(){
     $(document).ready(function(){
     document.querySelector('#messages').scrollTo(0,100000000)
 
 })
 }
-     
     
     </script>
 </body>

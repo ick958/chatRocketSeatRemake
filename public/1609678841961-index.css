@@ -1,0 +1,21 @@
+#link{
+    color:white;
+    font-size: 30px; 
+    text-align: center;
+    align-items: center;
+  }
+  body {
+    background-image: url("./img.jpg");
+  
+  }
+  #texto {
+    font-family: cursive, sans-serif,monospace,fantasy;
+    color: white;
+    font-size-adjust: auto;
+    text-align: center;
+  }
+  #ideia{
+    font-size: 30px;
+    color: white;
+  
+  }
